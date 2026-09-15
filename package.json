@@ -1,0 +1,11 @@
+{
+  "name": "organ-strip-punch-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "手摇风琴纸带打孔与成品孔位抽检 API（零依赖 Node 服务）",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/"
+  }
+}
