@@ -51,11 +51,22 @@ async function parseBody(req) {
   let raw = "";
   for await (const chunk of req) raw += chunk;
   if (!raw) return {};
+  let parsed;
   try {
-    return JSON.parse(raw);
+    parsed = JSON.parse(raw);
   } catch {
     fail(400, "请求体必须是合法JSON");
   }
+  if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
+    const got =
+      parsed === null
+        ? "null"
+        : Array.isArray(parsed)
+          ? "数组"
+          : { string: "字符串", number: "数字", boolean: "布尔值" }[typeof parsed] || typeof parsed;
+    fail(400, `请求体必须是JSON对象，收到的是 ${got}`);
+  }
+  return parsed;
 }
 
 function makeId(prefix) {
